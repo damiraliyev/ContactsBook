@@ -18,9 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = navigationController
+        window?.rootViewController = MainViewController()
         
-        setupNavController()
+//        setupNavController()
         
         return true
     }
@@ -29,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationController.viewControllers = [MainViewController()]
 //        MainViewController().setupTabBar()
 //        navigationController.navigationBar.prefersLargeTitles = true
-        navigationController.title = "Contacts"
         let appearance = UINavigationBarAppearance()
 
         appearance.configureWithOpaqueBackground()

@@ -14,15 +14,14 @@ class MainViewController: UITabBarController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .orange
         delegate = self
-        
+
         setupTabBar()
     }
     
     func setupTabBar() {
+        
         let favoritesVC = FavoritesViewController()
         favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star.fill"), selectedImage: nil)
-        favoritesVC.navigationController?.title = "Contacts"
-        
         
         let recentsVC = RecentsViewController()
         recentsVC.tabBarItem = UITabBarItem(title: "Recents", image: UIImage(systemName: "clock.fill"), selectedImage: nil)
@@ -34,12 +33,26 @@ class MainViewController: UITabBarController {
         let recentsNC = UINavigationController(rootViewController: recentsVC)
         let contactsNC = UINavigationController(rootViewController: contactsVC)
         
+        favoritesNC.navigationBar.prefersLargeTitles = true
+        recentsNC.navigationBar.prefersLargeTitles = true
+        contactsNC.navigationBar.prefersLargeTitles = true
         
+        favoritesVC.navigationItem.title = "Favorites"
+        recentsVC.navigationItem.title = "Recents"
+        contactsVC.navigationItem.title = "Contacts"
         
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
         tabBarAppearance.backgroundColor = .systemBackground
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+
+        favoritesNC.navigationBar.scrollEdgeAppearance = appearance
+        recentsNC.navigationBar.scrollEdgeAppearance = appearance
+        contactsNC.navigationBar.scrollEdgeAppearance = appearance
         
         viewControllers = [favoritesNC, recentsNC, contactsNC]
        

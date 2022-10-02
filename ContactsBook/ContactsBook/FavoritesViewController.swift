@@ -12,7 +12,7 @@ class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Recents"
+//        title = "Recents"
 //        navigationController?.title = "Recents"
        
     }
