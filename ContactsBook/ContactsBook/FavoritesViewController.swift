@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 class FavoritesViewController: UIViewController {
+    let searchController = UISearchController()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        title = "Recents"
-//        navigationController?.title = "Recents"
+        navigationItem.searchController = searchController
        
     }
 }

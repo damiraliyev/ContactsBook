@@ -9,9 +9,11 @@ import Foundation
 import UIKit
 
 class ContactsViewController: UIViewController {
+    let searchController = UISearchController()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 //        navigationController?.title = "Contacts"
+       navigationItem.searchController = searchController
     }
 }

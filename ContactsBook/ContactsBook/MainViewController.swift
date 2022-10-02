@@ -54,6 +54,8 @@ class MainViewController: UITabBarController {
         recentsNC.navigationBar.scrollEdgeAppearance = appearance
         contactsNC.navigationBar.scrollEdgeAppearance = appearance
         
+        contactsVC.navigationItem.searchController = UISearchController()
+        
         viewControllers = [favoritesNC, recentsNC, contactsNC]
        
     }
