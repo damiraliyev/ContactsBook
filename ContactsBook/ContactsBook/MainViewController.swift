@@ -8,7 +8,7 @@
 import UIKit
 
 class MainViewController: UITabBarController {
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -21,6 +21,8 @@ class MainViewController: UITabBarController {
     func setupTabBar() {
         let favoritesVC = FavoritesViewController()
         favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star.fill"), selectedImage: nil)
+        favoritesVC.navigationController?.title = "Contacts"
+        
         
         let recentsVC = RecentsViewController()
         recentsVC.tabBarItem = UITabBarItem(title: "Recents", image: UIImage(systemName: "clock.fill"), selectedImage: nil)
@@ -28,12 +30,19 @@ class MainViewController: UITabBarController {
         let contactsVC = ContactsViewController()
         contactsVC.tabBarItem = UITabBarItem(title: "Contacts", image: UIImage(systemName: "person.crop.circle"), selectedImage: nil)
         
+        let favoritesNC = UINavigationController(rootViewController: favoritesVC)
+        let recentsNC = UINavigationController(rootViewController: recentsVC)
+        let contactsNC = UINavigationController(rootViewController: contactsVC)
+        
+        
+        
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
         tabBarAppearance.backgroundColor = .systemBackground
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         
-        viewControllers = [favoritesVC, recentsVC, contactsVC]
+        viewControllers = [favoritesNC, recentsNC, contactsNC]
+       
     }
 
 

@@ -11,6 +11,7 @@ import UIKit
 class RecentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
+//        navigationController?.title = "Recents"
     }
 }

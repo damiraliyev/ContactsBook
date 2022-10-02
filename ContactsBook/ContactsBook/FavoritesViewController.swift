@@ -11,6 +11,9 @@ import UIKit
 class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
+        view.backgroundColor = .systemBackground
+        title = "Recents"
+//        navigationController?.title = "Recents"
+       
     }
 }
