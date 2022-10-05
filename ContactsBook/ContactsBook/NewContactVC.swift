@@ -32,7 +32,7 @@ class NewContactVC: UIViewController {
     var newContactDelegate: NewContactDelegate!
     
     let nameTextField = makeTextField(placeholder: "Your name")
-    let numberTextField = makeTextField(placeholder: "Phone number")
+    var numberTextField = makeTextField(placeholder: "Phone number")
     let genderPickerView = UIPickerView()
     var saveButtonContainer = UIView()
     let genders = ["male", "female"]
@@ -195,6 +195,7 @@ class NewContactVC: UIViewController {
             numberErrorLabel.isHidden = true
             
             name = nameTextField.text!
+            numberTextField.text = numberTextField.text?.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
             number = numberTextField.text!
             newContactDelegate?.didSaveContact(name: name, number: number, gender: gender)
             self.navigationController?.popViewController(animated: true)
@@ -246,6 +247,11 @@ extension NewContactVC: UITextFieldDelegate {
         
         return true
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        numberTextField.text = numberTextField.text?.applyPatternOnNumbers(pattern: "+# (###) ###-##-##", replacementCharacter: "#")
+        return true
+    }
 }
 
 
@@ -269,3 +275,19 @@ func makeButton(withText text: String) -> UIButton {
     return button
 }
 
+
+
+
+extension String {
+    func applyPatternOnNumbers(pattern: String, replacementCharacter: Character) -> String {
+        var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
+        for index in 0 ..< pattern.count {
+            guard index < pureNumber.count else { return pureNumber }
+            let stringIndex = String.Index(utf16Offset: index, in: pattern)
+            let patternCharacter = pattern[stringIndex]
+            guard patternCharacter != replacementCharacter else { continue }
+            pureNumber.insert(patternCharacter, at: stringIndex)
+        }
+        return pureNumber
+    }
+}
