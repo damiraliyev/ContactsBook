@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class ContactsViewController: UIViewController, NewContactDelegate {
+class ContactsViewController: UIViewController{
    
     
     let searchController = UISearchController()
@@ -65,14 +65,23 @@ class ContactsViewController: UIViewController, NewContactDelegate {
         navigationItem.searchController = searchController
         let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addContact))
         navigationItem.rightBarButtonItem = addButton
+        
+        navigationItem.leftBarButtonItem = .some(editButtonItem)
+//        editButtonItem.action = #selector(enableEditButton)
     }
 
     @objc func addContact() {
         self.navigationController?.pushViewController(newContactVC, animated: false)
         newContactVC.newContactDelegate = self
-        print(newContactVC.newContactDelegate)
     }
     
+//    @objc func enableEditButton() {
+//        self.tableView.isEditing = true
+//    }
+    
+}
+
+extension ContactsViewController: NewContactDelegate {
     func didSaveContact(name: String, number: String, gender: String) {
         print("HERE")
         print(gender)
@@ -85,6 +94,20 @@ extension ContactsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+//    editingStyle
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            contactsArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
+    
+    
     
 }
 
@@ -102,4 +125,5 @@ extension ContactsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactsArray.count
     }
+    
 }
