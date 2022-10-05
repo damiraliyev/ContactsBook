@@ -21,10 +21,18 @@ class ContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        navigationItem.searchController = searchController
-        
+        setupNavBar()
         setup()
         layout()
+    }
+    
+
+    override func viewWillLayoutSubviews() {
+        tableView.frame = view.bounds
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
     
     func setup() {
@@ -34,14 +42,28 @@ class ContactsViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
         tableView.register(ContactCell.self, forCellReuseIdentifier: ContactCell.reuseID)
         tableView.rowHeight = 80
-        tableView.frame = view.bounds
-        
-        
+//        tableView.frame = view.bounds
     }
     
     func layout() {
         view.addSubview(tableView)
         
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    func setupNavBar() {
+        navigationItem.searchController = searchController
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addContact))
+        navigationItem.rightBarButtonItem = addButton
+    }
+
+    @objc func addContact() {
+        self.navigationController?.pushViewController(NewContactVC(), animated: false)
     }
 }
 

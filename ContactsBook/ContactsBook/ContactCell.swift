@@ -59,6 +59,8 @@ class ContactCell: UITableViewCell {
         stackView.addArrangedSubview(phoneNumber)
         
         NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
             myImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             myImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             myImageView.heightAnchor.constraint(equalToConstant: 50),

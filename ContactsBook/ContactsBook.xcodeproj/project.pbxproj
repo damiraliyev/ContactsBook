@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6806EFA928ED6C8D00F57CF2 /* NewContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806EFA828ED6C8D00F57CF2 /* NewContactVC.swift */; };
 		6823E99028E9FE830050B051 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6823E98F28E9FE830050B051 /* ContactCell.swift */; };
 		6855154328E96840006D02F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855154228E96840006D02F3 /* AppDelegate.swift */; };
 		6855154728E96840006D02F3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855154628E96840006D02F3 /* MainViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6806EFA828ED6C8D00F57CF2 /* NewContactVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewContactVC.swift; sourceTree = "<group>"; };
 		6823E98F28E9FE830050B051 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		6855153F28E96840006D02F3 /* ContactsBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactsBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6855154228E96840006D02F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				6855154228E96840006D02F3 /* AppDelegate.swift */,
 				6855154628E96840006D02F3 /* MainViewController.swift */,
 				6855155628E96977006D02F3 /* ContactsViewController.swift */,
+				6806EFA828ED6C8D00F57CF2 /* NewContactVC.swift */,
 				6855155828E9699C006D02F3 /* RecentsViewController.swift */,
 				6855155A28E96A14006D02F3 /* FavoritesViewController.swift */,
 				6855155C28E96A1B006D02F3 /* Files */,
@@ -156,6 +159,7 @@
 				6855155928E9699C006D02F3 /* RecentsViewController.swift in Sources */,
 				6855154328E96840006D02F3 /* AppDelegate.swift in Sources */,
 				6855155B28E96A14006D02F3 /* FavoritesViewController.swift in Sources */,
+				6806EFA928ED6C8D00F57CF2 /* NewContactVC.swift in Sources */,
 				6855155728E96977006D02F3 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

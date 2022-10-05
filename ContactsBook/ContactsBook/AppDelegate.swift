@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.rootViewController = MainViewController()
+//        window?.rootViewController = ContactVC()
         
 //        setupNavController()
         
@@ -26,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setupNavController() {
-        navigationController.viewControllers = [MainViewController()]
+//        navigationController.viewControllers = [ContactVC()]
 //        MainViewController().setupTabBar()
 //        navigationController.navigationBar.prefersLargeTitles = true
         let appearance = UINavigationBarAppearance()
