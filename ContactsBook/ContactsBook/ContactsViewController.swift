@@ -8,11 +8,16 @@
 import Foundation
 import UIKit
 
-class ContactsViewController: UIViewController {
+
+class ContactsViewController: UIViewController, NewContactDelegate {
+   
+    
     let searchController = UISearchController()
     let tableView = UITableView()
+    let newContactVC = NewContactVC()
     
-    let contactsArray = [
+    
+    var contactsArray = [
         ContactModel(gender: "male", contactName: "Ronaldo", phoneNumber: "+77777777777"),
         ContactModel(gender: "female", contactName: "Margot Robbie", phoneNumber: "+77777777778"),
         ContactModel(gender: "male", contactName: "Fazilkhan", phoneNumber: "+77777777779")
@@ -63,7 +68,16 @@ class ContactsViewController: UIViewController {
     }
 
     @objc func addContact() {
-        self.navigationController?.pushViewController(NewContactVC(), animated: false)
+        self.navigationController?.pushViewController(newContactVC, animated: false)
+        newContactVC.newContactDelegate = self
+        print(newContactVC.newContactDelegate)
+    }
+    
+    func didSaveContact(name: String, number: String, gender: String) {
+        print("HERE")
+        print(gender)
+        contactsArray.append(ContactModel(gender: gender, contactName: name, phoneNumber: number))
+        tableView.reloadData()
     }
 }
 

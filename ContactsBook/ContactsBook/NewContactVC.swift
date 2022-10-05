@@ -8,18 +8,29 @@
 import Foundation
 import UIKit
 
+protocol NewContactDelegate {
+    func didSaveContact(name: String, number: String, gender: String)
+}
+
 
 class NewContactVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
+        nameTextField.text = ""
+        numberTextField.text = ""
+        gender = "male"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    
+    var newContactDelegate: NewContactDelegate!
+    
     let nameTextField = makeTextField(placeholder: "Your name")
     let numberTextField = makeTextField(placeholder: "Phone number")
     let genderPickerView = UIPickerView()
@@ -27,6 +38,11 @@ class NewContactVC: UIViewController {
     let genders = ["male", "female"]
     let nameErrorLabel = UILabel()
     let numberErrorLabel = UILabel()
+    
+    var name = String()
+    var number = String()
+    var gender = "male"
+    
     
     var saveButtonBottomConstraint = NSLayoutConstraint()
     var nameTextFieldTopConstraint = NSLayoutConstraint()
@@ -125,7 +141,7 @@ class NewContactVC: UIViewController {
             //pickerView
             genderPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            genderPickerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 24),
-            genderPickerView.topAnchor.constraint(equalTo: numberTextField.bottomAnchor, constant: 1),
+            genderPickerView.topAnchor.constraint(equalTo: numberTextField.bottomAnchor, constant: 8),
             genderPickerView.heightAnchor.constraint(equalToConstant: 75),
             
             
@@ -140,27 +156,6 @@ class NewContactVC: UIViewController {
         nameTextFieldTopConstraint.isActive = true
         saveButtonBottomConstraint = saveButtonContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32)
         saveButtonBottomConstraint.isActive = true
-    }
-    
-
-}
-
-
-extension NewContactVC: UIPickerViewDelegate {
-    
-}
-
-extension NewContactVC: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return genders[row]
     }
     
     func makeButtonCustomView() -> UIView {
@@ -198,6 +193,14 @@ extension NewContactVC: UIPickerViewDataSource {
         }else {
             nameErrorLabel.isHidden = true
             numberErrorLabel.isHidden = true
+            
+            name = nameTextField.text!
+            number = numberTextField.text!
+            newContactDelegate?.didSaveContact(name: name, number: number, gender: gender)
+            self.navigationController?.popViewController(animated: true)
+            
+            
+            
         }
     }
     
@@ -211,6 +214,30 @@ extension NewContactVC: UIPickerViewDataSource {
 
     
     
+
+}
+
+
+extension NewContactVC: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        gender = genders[row]
+    }
+}
+
+extension NewContactVC: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return genders[row]
+    }
+    
+
 }
 
 extension NewContactVC: UITextFieldDelegate {
