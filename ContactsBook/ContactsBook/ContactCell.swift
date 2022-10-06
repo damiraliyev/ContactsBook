@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-struct ContactModel {
-    let gender: String
-    let contactName: String
-    let phoneNumber: String
-}
+//struct ContactModel {
+//    let gender: String
+//    let contactName: String
+//    let phoneNumber: String
+//}
 
 class ContactCell: UITableViewCell {
     
@@ -77,8 +77,8 @@ class ContactCell: UITableViewCell {
         ])
     }
     
-    func configureCell(model: ContactModel) {
-        myImageView.image = UIImage(named: model.gender)
+    func configureCell(model: Contact) {
+        myImageView.image = UIImage(named: model.gender!)
         contactName.text = model.contactName
         phoneNumber.text = model.phoneNumber
     }

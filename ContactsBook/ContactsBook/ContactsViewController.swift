@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 
 class ContactsViewController: UIViewController{
@@ -15,13 +16,9 @@ class ContactsViewController: UIViewController{
     let searchController = UISearchController()
     let tableView = UITableView()
     let newContactVC = NewContactVC()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    
-    var contactsArray = [
-        ContactModel(gender: "male", contactName: "Ronaldo", phoneNumber: "+77777777777"),
-        ContactModel(gender: "female", contactName: "Margot Robbie", phoneNumber: "+77777777778"),
-        ContactModel(gender: "male", contactName: "Fazilkhan", phoneNumber: "+77777777779")
-    ]
+    var contactsArray = [Contact]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +62,6 @@ class ContactsViewController: UIViewController{
         navigationItem.searchController = searchController
         let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addContact))
         navigationItem.rightBarButtonItem = addButton
-        
-        navigationItem.leftBarButtonItem = .some(editButtonItem)
-//        editButtonItem.action = #selector(enableEditButton)
     }
 
     @objc func addContact() {
@@ -83,10 +77,29 @@ class ContactsViewController: UIViewController{
 
 extension ContactsViewController: NewContactDelegate {
     func didSaveContact(name: String, number: String, gender: String) {
-        print("HERE")
-        print(gender)
-        contactsArray.append(ContactModel(gender: gender, contactName: name, phoneNumber: number))
+        
+//        let newContact = ContactModel(gender: gender, contactName: name, phoneNumber: number)
+        let newContact = Contact(context: context)
+        newContact.contactName = name
+        newContact.phoneNumber = number
+        newContact.gender = gender
+        contactsArray.append(newContact)
+        saveContact()
+//        tableView.reloadData()
+    }
+    
+    func saveContact() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context: \(error)")
+        }
+        
         tableView.reloadData()
+    }
+    
+    func loadContacts() {
+        
     }
 }
 
