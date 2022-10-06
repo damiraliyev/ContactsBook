@@ -22,10 +22,13 @@ class ContactsViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         view.backgroundColor = .systemBackground
         setupNavBar()
         setup()
         layout()
+        
+        loadContacts()
     }
     
 
@@ -69,6 +72,27 @@ class ContactsViewController: UIViewController{
         newContactVC.newContactDelegate = self
     }
     
+    //MARK: Function for save and fetch data from CoreData
+    func saveContact() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context: \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func loadContacts() {
+        let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+        do {
+            contactsArray = try context.fetch(request)
+        } catch {
+            print("Error fetching request: \(error)")
+        }
+        
+    }
+    
 //    @objc func enableEditButton() {
 //        self.tableView.isEditing = true
 //    }
@@ -88,19 +112,7 @@ extension ContactsViewController: NewContactDelegate {
 //        tableView.reloadData()
     }
     
-    func saveContact() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context: \(error)")
-        }
-        
-        tableView.reloadData()
-    }
-    
-    func loadContacts() {
-        
-    }
+   
 }
 
 extension ContactsViewController: UITableViewDelegate {
@@ -115,8 +127,9 @@ extension ContactsViewController: UITableViewDelegate {
 //    editingStyle
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            context.delete(contactsArray[indexPath.row])
             contactsArray.remove(at: indexPath.row)
-            tableView.reloadData()
+            saveContact()
         }
     }
     
