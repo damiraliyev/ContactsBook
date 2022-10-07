@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         window?.rootViewController = MainViewController()
 //        window?.rootViewController = ContactVC()
+//        window?.rootViewController = ContactInfoVC()
         
 //        setupNavController()
         

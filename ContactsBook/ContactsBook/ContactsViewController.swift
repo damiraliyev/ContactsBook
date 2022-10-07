@@ -24,20 +24,28 @@ class ContactsViewController: UIViewController{
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         view.backgroundColor = .systemBackground
+        navigationItem.hidesSearchBarWhenScrolling = false
         setupNavBar()
         setup()
         layout()
         
         loadContacts()
+       
     }
+    
     
 
     override func viewWillLayoutSubviews() {
         tableView.frame = view.bounds
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+
         ])
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationItem.largeTitleDisplayMode = .always
     }
     
     func setup() {
@@ -93,23 +101,17 @@ class ContactsViewController: UIViewController{
         
     }
     
-//    @objc func enableEditButton() {
-//        self.tableView.isEditing = true
-//    }
-    
 }
 
 extension ContactsViewController: NewContactDelegate {
     func didSaveContact(name: String, number: String, gender: String) {
-        
-//        let newContact = ContactModel(gender: gender, contactName: name, phoneNumber: number)
+
         let newContact = Contact(context: context)
         newContact.contactName = name
         newContact.phoneNumber = number
         newContact.gender = gender
         contactsArray.append(newContact)
         saveContact()
-//        tableView.reloadData()
     }
     
    
@@ -117,6 +119,10 @@ extension ContactsViewController: NewContactDelegate {
 
 extension ContactsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let concatInfoVC = ContactInfoVC()
+        let currentContact = contactsArray[indexPath.row]
+        concatInfoVC.setContactInfo(gender:currentContact.gender! , name: currentContact.contactName!, number: currentContact.phoneNumber!)
+        self.navigationController?.pushViewController(concatInfoVC, animated: false)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -138,9 +144,6 @@ extension ContactsViewController: UITableViewDelegate {
 }
 
 extension ContactsViewController: UITableViewDataSource {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 1
-//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContactCell.reuseID, for: indexPath) as! ContactCell

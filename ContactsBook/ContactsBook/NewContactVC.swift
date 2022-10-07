@@ -20,7 +20,7 @@ class NewContactVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         nameTextField.text = ""
         numberTextField.text = ""
-        gender = "male"
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,6 +93,8 @@ class NewContactVC: UIViewController {
         
         nameTextField.delegate = self
         numberTextField.delegate = self
+        
+        gender = "male"
         
         setupErrorLabel(errorLabel: nameErrorLabel)
         setupErrorLabel(errorLabel: numberErrorLabel)
@@ -195,7 +197,7 @@ class NewContactVC: UIViewController {
             numberErrorLabel.isHidden = true
             
             name = nameTextField.text!
-            numberTextField.text = numberTextField.text?.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
+            numberTextField.text = numberTextField.text!
             number = numberTextField.text!
             newContactDelegate?.didSaveContact(name: name, number: number, gender: gender)
             self.navigationController?.popViewController(animated: true)

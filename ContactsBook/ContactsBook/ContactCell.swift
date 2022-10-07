@@ -32,10 +32,13 @@ class ContactCell: UITableViewCell {
     }
     
     func setup() {
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.alignment = .center
+//        stackView.alignment = .center
         
         myImageView.translatesAutoresizingMaskIntoConstraints = false
         myImageView.image = UIImage(named: "male")
