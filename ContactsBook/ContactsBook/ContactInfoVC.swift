@@ -8,12 +8,13 @@
 import Foundation
 import UIKit
 
+
 class ContactInfoVC: UIViewController {
     let genderImageView = UIImageView()
     let contactName = UILabel()
     let phoneNumber = UILabel()
     let textMessage = CommunicationView(imageName: "message.fill", text: "text")
-    let call = CommunicationView(imageName: "phone.fill", text: "phone")
+    @objc let call = CommunicationView(imageName: "phone.fill", text: "phone")
     let video = CommunicationView(imageName: "video.fill", text: "video")
     let email = CommunicationView(imageName: "envelope.fill", text: "mail")
     let stackView = makeStackView(axis: .horizontal)
@@ -25,19 +26,23 @@ class ContactInfoVC: UIViewController {
     
     let addToFavoritesButton = makeButton(withText: "   Add to favorites")
     
-  
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setup()
         layout()
- 
+        print(contactName.text!)
+        let contactData = ["contactName": contactName.text!]
+        print(contactData)
+        NotificationCenter.default.post(name: NSNotification.Name("EnteredToInfo"), object: nil, userInfo: contactData as [AnyHashable : Any])
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -46,6 +51,8 @@ class ContactInfoVC: UIViewController {
     }
     
     func setup() {
+        setupGestureToCall()
+        
         genderImageView.translatesAutoresizingMaskIntoConstraints = false
 //        genderImageView.image = UIImage(named: "male")
         
@@ -54,6 +61,7 @@ class ContactInfoVC: UIViewController {
         contactName.font = UIFont.systemFont(ofSize: 26)
         
         phoneNumber.translatesAutoresizingMaskIntoConstraints = false
+        
         
         stackView.distribution = .fillEqually
 //        stackView.alignment = .fill
@@ -83,6 +91,15 @@ class ContactInfoVC: UIViewController {
         addToFavoritesButton.contentHorizontalAlignment = .left
         addToFavoritesButton.setTitleColor(.systemBlue, for: .normal)
         addToFavoritesButton.addTarget(self, action: #selector(addToFavoritePressed), for: .primaryActionTriggered)
+    }
+    
+    func setupGestureToCall() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(imitateCall))
+        call.addGestureRecognizer(gesture)
+    }
+    
+    @objc func imitateCall() {
+        NotificationCenter.default.post(name: NSNotification.Name("Called"), object: nil)
     }
     
     
