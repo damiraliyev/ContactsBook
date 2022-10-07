@@ -57,7 +57,21 @@ class MainViewController: UITabBarController {
         contactsVC.navigationItem.searchController = UISearchController()
         
         viewControllers = [favoritesNC, recentsNC, contactsNC]
+        
+        loadAllControllers()
        
+    }
+    
+    func loadAllControllers() {
+        if let viewControllers = self.viewControllers {
+            for viewController in viewControllers {
+                if let navVC = viewController as? UINavigationController {
+                    print("true")
+                    let _ = navVC.viewControllers.first?.view
+                }
+               
+            }
+        }
     }
 
 

@@ -14,7 +14,7 @@ class ContactInfoVC: UIViewController {
     let contactName = UILabel()
     let phoneNumber = UILabel()
     let textMessage = CommunicationView(imageName: "message.fill", text: "text")
-    @objc let call = CommunicationView(imageName: "phone.fill", text: "phone")
+    let call = CommunicationView(imageName: "phone.fill", text: "phone")
     let video = CommunicationView(imageName: "video.fill", text: "video")
     let email = CommunicationView(imageName: "envelope.fill", text: "mail")
     let stackView = makeStackView(axis: .horizontal)
@@ -95,10 +95,16 @@ class ContactInfoVC: UIViewController {
     
     func setupGestureToCall() {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(imitateCall))
+       
+
         call.addGestureRecognizer(gesture)
     }
     
     @objc func imitateCall() {
+        call.alpha = 0.6
+        UIView.animate(withDuration: 0.3) {
+            self.call.alpha = 1
+        }
         NotificationCenter.default.post(name: NSNotification.Name("Called"), object: nil)
     }
     
