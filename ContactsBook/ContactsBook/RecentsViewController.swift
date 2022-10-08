@@ -67,8 +67,10 @@ class RecentsViewController: UIViewController {
     @objc func callPressed(_ notification: Notification) {
         let newRecent = Recent(context: context)
         newRecent.contactName = contactName
-        recents.append(newRecent)
+        newRecent.date = Date.now
+        recents.insert(newRecent, at: 0)
         saveRecent()
+
         
     }
     
@@ -84,6 +86,8 @@ class RecentsViewController: UIViewController {
     
     func loadRecents() {
         let request: NSFetchRequest<Recent> = Recent.fetchRequest()
+//        let sort: NSSortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+//        request.sortDescriptors = [sort]
         do {
             recents = try context.fetch(request)
         } catch {
@@ -97,6 +101,17 @@ extension RecentsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            context.delete(recents[indexPath.row])
+            recents.remove(at: indexPath.row)
+            saveRecent()
+        }
+    }
     
 }
 
@@ -109,6 +124,13 @@ extension RecentsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
         content.text = recents[indexPath.row].contactName
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d HH:mm"
+        if let date = recents[indexPath.row].date {
+            content.secondaryText = dateFormatter.string(from: date)
+            
+        }
         cell.contentConfiguration = content
         return cell
     }

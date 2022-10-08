@@ -7,9 +7,10 @@
     </entity>
     <entity name="Recent" representedClassName=".Recent" syncable="YES" codeGenerationType="class">
         <attribute name="contactName" attributeType="String"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>
         <element name="Contact" positionX="-63" positionY="-18" width="128" height="74"/>
-        <element name="Recent" positionX="-63" positionY="9" width="128" height="14"/>
+        <element name="Recent" positionX="-63" positionY="9" width="128" height="59"/>
     </elements>
 </model>
