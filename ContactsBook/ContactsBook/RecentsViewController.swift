@@ -7,14 +7,18 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class RecentsViewController: UIViewController {
     let contactInfoVC = ContactInfoVC()
     let searchController = UISearchController()
-    var recents = [String]()
+    var recents = [Recent]()
     let tableView = UITableView()
     
     var contactName = ""
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -23,6 +27,7 @@ class RecentsViewController: UIViewController {
         print("viewDidLoad")
         setup()
         layout()
+        loadRecents()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,8 +65,30 @@ class RecentsViewController: UIViewController {
     }
     
     @objc func callPressed(_ notification: Notification) {
-        recents.append(contactName)
-        print(recents)
+        let newRecent = Recent(context: context)
+        newRecent.contactName = contactName
+        recents.append(newRecent)
+        saveRecent()
+        
+    }
+    
+    //MARK: CoreData functions
+    func saveRecent() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context: \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    func loadRecents() {
+        let request: NSFetchRequest<Recent> = Recent.fetchRequest()
+        do {
+            recents = try context.fetch(request)
+        } catch {
+            print("Error fetching request: \(error)")
+        }
         tableView.reloadData()
     }
 }
@@ -81,7 +108,7 @@ extension RecentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        content.text = recents[indexPath.row]
+        content.text = recents[indexPath.row].contactName
         cell.contentConfiguration = content
         return cell
     }
