@@ -26,6 +26,17 @@ class ContactInfoVC: UIViewController {
     
     let addToFavoritesButton = makeButton(withText: "   Add to favorites")
     
+    
+    let scrollView = UIScrollView()
+    
+    lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+    
+    
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.frame.size = contentViewSize
+        return view
+    }()
  
     
     override func viewDidLoad() {
@@ -51,6 +62,10 @@ class ContactInfoVC: UIViewController {
     }
     
     func setup() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentSize = contentViewSize
+        scrollView.frame = self.view.bounds
+        
         setupGestureToCall()
         
         genderImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -110,25 +125,36 @@ class ContactInfoVC: UIViewController {
     
     
     func layout() {
-        view.addSubview(stackView)
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+//        view.addSubview(stackView)
         stackView.addArrangedSubview(textMessage)
         stackView.addArrangedSubview(call)
         stackView.addArrangedSubview(video)
         stackView.addArrangedSubview(email)
         
-        view.addSubview(genderImageView)
-        view.addSubview(contactName)
+        scrollView.addSubview(genderImageView)
+        scrollView.addSubview(contactName)
         
-        view.addSubview(phoneInfoView)
+        scrollView.addSubview(phoneInfoView)
         phoneInfoView.addSubview(stackForPhoneInfo)
         stackForPhoneInfo.addArrangedSubview(cellPhoneLabel)
         stackForPhoneInfo.addArrangedSubview(phoneNumInView)
         
-        view.addSubview(addToFavoritesButton)
+        scrollView.addSubview(addToFavoritesButton)
         
         NSLayoutConstraint.activate([
-            genderImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            genderImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            genderImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 8),
+            genderImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             genderImageView.widthAnchor.constraint(equalToConstant: 120),
             genderImageView.heightAnchor.constraint(equalToConstant: 120)
         ])
