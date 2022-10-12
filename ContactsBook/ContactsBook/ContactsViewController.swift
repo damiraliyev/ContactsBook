@@ -54,6 +54,8 @@ class ContactsViewController: UIViewController{
     }
     
     func setup() {
+        
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
@@ -91,6 +93,7 @@ class ContactsViewController: UIViewController{
         navigationItem.searchController = searchController
         let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addContact))
         navigationItem.rightBarButtonItem = addButton
+        searchController.searchBar.delegate = self
     }
 
     @objc func addContact() {
@@ -109,8 +112,8 @@ class ContactsViewController: UIViewController{
         tableView.reloadData()
     }
     
-    func loadContacts() {
-        let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+    func loadContacts(request:NSFetchRequest<Contact> = Contact.fetchRequest()) {
+//        let request: NSFetchRequest<Contact> = Contact.fetchRequest()
         do {
             contactsArray = try context.fetch(request)
         } catch {
@@ -189,4 +192,39 @@ extension ContactsViewController: UITableViewDataSource {
         return contactsArray.count
     }
     
+}
+
+
+extension ContactsViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            print("Here")
+            loadContacts()
+            tableView.reloadData()
+//            searchBar.resignFirstResponder()
+        } else {
+            let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+            request.predicate = NSPredicate(format: "contactName CONTAINS[cd] %@", searchBar.text!)
+            request.sortDescriptors = [NSSortDescriptor(key: "contactName", ascending: true)]
+            loadContacts(request: request)
+            
+            tableView.reloadData()
+        }
+    }
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+//        print(contactsArray[0].contactName)
+//        request.predicate = NSPredicate(format: "contactName CONTAINS[cd] %@", searchBar.text!)
+//        request.sortDescriptors = [NSSortDescriptor(key: "contactName", ascending: true)]
+//        print(searchBar.text)
+//
+//        loadContacts(request: request)
+//
+//        tableView.reloadData()
+//
+//    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+               print("Called")
+    }
 }
