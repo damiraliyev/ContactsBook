@@ -23,7 +23,6 @@ class RecentsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 //        navigationController?.title = "Recents"
-        navigationItem.searchController = searchController
         print("viewDidLoad")
         setup()
         layout()

@@ -45,9 +45,14 @@ class ContactInfoVC: UIViewController {
         setup()
         layout()
         print(contactName.text!)
+        
+        registerForNotifications()
+    }
+    func registerForNotifications() {
         let contactData = ["contactName": contactName.text!]
         print(contactData)
         NotificationCenter.default.post(name: NSNotification.Name("EnteredToInfo"), object: nil, userInfo: contactData as [AnyHashable : Any])
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,7 +121,7 @@ class ContactInfoVC: UIViewController {
     }
     
     @objc func imitateCall() {
-        call.alpha = 0.6
+        call.alpha = 0.3
         UIView.animate(withDuration: 0.3) {
             self.call.alpha = 1
         }

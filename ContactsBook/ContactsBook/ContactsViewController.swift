@@ -20,16 +20,21 @@ class ContactsViewController: UIViewController{
     
     var contactsArray = [Contact]()
     
+    let noContactsLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         view.backgroundColor = .systemBackground
         navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.largeTitleDisplayMode = .always
         setupNavBar()
         setup()
         layout()
         
         loadContacts()
+        
+        hideOrShowNoContact()
        
     }
     
@@ -56,10 +61,23 @@ class ContactsViewController: UIViewController{
         tableView.register(ContactCell.self, forCellReuseIdentifier: ContactCell.reuseID)
         tableView.rowHeight = 80
 //        tableView.frame = view.bounds
+        
+        noContactsLabel.translatesAutoresizingMaskIntoConstraints = false
+        noContactsLabel.text = "No contacts"
+        noContactsLabel.adjustsFontSizeToFitWidth = true
+        noContactsLabel.textColor = .label
+        noContactsLabel.font = UIFont.systemFont(ofSize: 20)
+        noContactsLabel.isHidden = true
     }
     
     func layout() {
+        view.addSubview(noContactsLabel)
         view.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            noContactsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            noContactsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -101,6 +119,17 @@ class ContactsViewController: UIViewController{
         
     }
     
+    func hideOrShowNoContact() {
+        if contactsArray.count == 0 {
+            print("here")
+            noContactsLabel.isHidden = false
+            tableView.isHidden = true
+        } else {
+            noContactsLabel.isHidden = true
+            tableView.isHidden = false
+        }
+    }
+    
 }
 
 extension ContactsViewController: NewContactDelegate {
@@ -112,6 +141,7 @@ extension ContactsViewController: NewContactDelegate {
         newContact.gender = gender
         contactsArray.append(newContact)
         saveContact()
+        hideOrShowNoContact()
     }
     
    
@@ -136,6 +166,9 @@ extension ContactsViewController: UITableViewDelegate {
             context.delete(contactsArray[indexPath.row])
             contactsArray.remove(at: indexPath.row)
             saveContact()
+            hideOrShowNoContact()
+            
+            
         }
     }
     
@@ -152,6 +185,7 @@ extension ContactsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return contactsArray.count
     }
     

@@ -20,8 +20,6 @@ class MainViewController: UITabBarController {
     
     func setupTabBar() {
         
-        let favoritesVC = FavoritesViewController()
-        favoritesVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "star.fill"), selectedImage: nil)
         
         let recentsVC = RecentsViewController()
         recentsVC.tabBarItem = UITabBarItem(title: "Recents", image: UIImage(systemName: "clock.fill"), selectedImage: nil)
@@ -29,15 +27,14 @@ class MainViewController: UITabBarController {
         let contactsVC = ContactsViewController()
         contactsVC.tabBarItem = UITabBarItem(title: "Contacts", image: UIImage(systemName: "person.crop.circle"), selectedImage: nil)
         
-        let favoritesNC = UINavigationController(rootViewController: favoritesVC)
         let recentsNC = UINavigationController(rootViewController: recentsVC)
         let contactsNC = UINavigationController(rootViewController: contactsVC)
         
-        favoritesNC.navigationBar.prefersLargeTitles = true
+        
         recentsNC.navigationBar.prefersLargeTitles = true
         contactsNC.navigationBar.prefersLargeTitles = true
         
-        favoritesVC.navigationItem.title = "Favorites"
+    
         recentsVC.navigationItem.title = "Recents"
         contactsVC.navigationItem.title = "Contacts"
         
@@ -50,13 +47,12 @@ class MainViewController: UITabBarController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
 
-        favoritesNC.navigationBar.scrollEdgeAppearance = appearance
-        recentsNC.navigationBar.scrollEdgeAppearance = appearance
         contactsNC.navigationBar.scrollEdgeAppearance = appearance
-        
+        recentsNC.navigationBar.scrollEdgeAppearance = appearance
+       
         contactsVC.navigationItem.searchController = UISearchController()
         
-        viewControllers = [favoritesNC, recentsNC, contactsNC]
+        viewControllers = [contactsNC, recentsNC]
         
         loadAllControllers()
        
