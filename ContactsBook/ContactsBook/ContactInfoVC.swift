@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol DeleteContactDelegate {
+    func didDelete()
+}
+
 
 class ContactInfoVC: UIViewController {
     let genderImageView = UIImageView()
@@ -26,10 +30,14 @@ class ContactInfoVC: UIViewController {
     
     let addToFavoritesButton = makeButton(withText: "   Add to favorites")
     
+    let deleteButton = makeButton(withText: "Delete")
+    var deleteDelegate: DeleteContactDelegate?
     
     let scrollView = UIScrollView()
     
     lazy var contentViewSize = CGSize(width: self.view.frame.width, height: self.view.frame.height)
+    
+    
     
     
     lazy var containerView: UIView = {
@@ -111,6 +119,14 @@ class ContactInfoVC: UIViewController {
         addToFavoritesButton.contentHorizontalAlignment = .left
         addToFavoritesButton.setTitleColor(.systemBlue, for: .normal)
         addToFavoritesButton.addTarget(self, action: #selector(addToFavoritePressed), for: .primaryActionTriggered)
+        
+        deleteButton.backgroundColor = .systemRed
+        deleteButton.addTarget(self, action: #selector(deleteContactPressed), for: .primaryActionTriggered)
+        
+    }
+    @objc func deleteContactPressed() {
+        deleteDelegate?.didDelete()
+        navigationController?.popViewController(animated: true)
     }
     
     func setupGestureToCall() {
@@ -148,6 +164,7 @@ class ContactInfoVC: UIViewController {
         stackForPhoneInfo.addArrangedSubview(phoneNumInView)
         
         scrollView.addSubview(addToFavoritesButton)
+        scrollView.addSubview(deleteButton)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -191,6 +208,14 @@ class ContactInfoVC: UIViewController {
             addToFavoritesButton.topAnchor.constraint(equalTo: phoneInfoView.bottomAnchor, constant: 16),
             addToFavoritesButton.leadingAnchor.constraint(equalTo: phoneInfoView.leadingAnchor),
             addToFavoritesButton.trailingAnchor.constraint(equalTo: phoneInfoView.trailingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            deleteButton.topAnchor.constraint(equalTo: addToFavoritesButton.bottomAnchor, constant: 15),
+//            deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            deleteButton.widthAnchor.constraint(equalToConstant: 100),
+            deleteButton.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
     

@@ -22,6 +22,8 @@ class ContactsViewController: UIViewController{
     
     let noContactsLabel = UILabel()
     
+    var selectedContactIndex = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
@@ -154,7 +156,9 @@ extension ContactsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let concatInfoVC = ContactInfoVC()
         let currentContact = contactsArray[indexPath.row]
+        selectedContactIndex = indexPath.row
         concatInfoVC.setContactInfo(gender:currentContact.gender! , name: currentContact.contactName!, number: currentContact.phoneNumber!)
+        concatInfoVC.deleteDelegate = self
         self.navigationController?.pushViewController(concatInfoVC, animated: false)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -211,6 +215,10 @@ extension ContactsViewController: UISearchBarDelegate {
             tableView.reloadData()
         }
     }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        loadContacts()
+        tableView.reloadData()
+    }
 //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 //        let request: NSFetchRequest<Contact> = Contact.fetchRequest()
 //        print(contactsArray[0].contactName)
@@ -226,5 +234,17 @@ extension ContactsViewController: UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
                print("Called")
+    }
+}
+
+
+
+extension ContactsViewController: DeleteContactDelegate {
+    func didDelete() {
+        print(selectedContactIndex)
+        context.delete(contactsArray[selectedContactIndex])
+        contactsArray.remove(at: selectedContactIndex)
+        saveContact()
+        hideOrShowNoContact()
     }
 }
