@@ -143,7 +143,7 @@ class NewContactVC: UIViewController {
             //pickerView
             genderPickerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            genderPickerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 24),
-            genderPickerView.topAnchor.constraint(equalTo: numberTextField.bottomAnchor, constant: 8),
+            genderPickerView.topAnchor.constraint(equalTo: numberTextField.bottomAnchor, constant: 24),
             genderPickerView.heightAnchor.constraint(equalToConstant: 75),
             
             
@@ -178,7 +178,10 @@ class NewContactVC: UIViewController {
         return container
     }
     
-    @objc func savePressed() {
+    @objc func savePressed(_ sender: UIButton) {
+        
+        sender.animatePress()
+        
         if nameTextField.text == "" && numberTextField.text == "" {
             nameErrorLabel.isHidden = false
             nameErrorLabel.text = "Name text field can not be empty"

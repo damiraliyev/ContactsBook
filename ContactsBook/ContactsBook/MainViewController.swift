@@ -90,3 +90,12 @@ extension MainViewController: UITabBarControllerDelegate  {
 }
 
 
+extension UIButton {
+    func animatePress() {
+        alpha = 0.3
+        
+        UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+            self?.alpha = 1
+        }
+    }
+}

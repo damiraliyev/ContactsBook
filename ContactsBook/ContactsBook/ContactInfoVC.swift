@@ -124,7 +124,10 @@ class ContactInfoVC: UIViewController {
         deleteButton.addTarget(self, action: #selector(deleteContactPressed), for: .primaryActionTriggered)
         
     }
-    @objc func deleteContactPressed() {
+    @objc func deleteContactPressed(_ sender: UIButton) {
+        
+        sender.animatePress()
+        
         deleteDelegate?.didDelete()
         navigationController?.popViewController(animated: true)
     }
@@ -227,13 +230,10 @@ class ContactInfoVC: UIViewController {
         phoneNumInView.text = number
     }
     
-    @objc func addToFavoritePressed() {
-        addToFavoritesButton.alpha = 0.6
+    @objc func addToFavoritePressed(_ sender: UIButton) {
         
-        UIView.animate(withDuration: 0.2) {
-            self.addToFavoritesButton.alpha = 1
-        }
-
+        sender.animatePress()
+        
     }
     
     

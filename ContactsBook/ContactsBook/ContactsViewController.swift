@@ -219,6 +219,7 @@ extension ContactsViewController: UISearchBarDelegate {
         loadContacts()
         tableView.reloadData()
     }
+    
 //    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 //        let request: NSFetchRequest<Contact> = Contact.fetchRequest()
 //        print(contactsArray[0].contactName)
