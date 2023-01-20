@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UITabBarController {
+class MainTabBarController: UITabBarController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,7 @@ class MainViewController: UITabBarController {
 }
 
 
-extension MainViewController: UITabBarControllerDelegate  {
+extension MainTabBarController: UITabBarControllerDelegate  {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
 
         guard let fromView = selectedViewController?.view, let toView = viewController.view else {
